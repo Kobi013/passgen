@@ -1,6 +1,7 @@
 import os
 import datetime
 
+
 def validate(date_text):
     try:
         datetime.datetime.strptime(date_text, '%d-%m-%Y')
@@ -23,7 +24,7 @@ def setUserPath():
     completePath = os.path.join(save_path, file_name)
     if not os.path.exists(save_path):
         os.makedirs(save_path)
-    return (completePath)    
+    return (completePath)
 
 
 try:
@@ -33,16 +34,14 @@ try:
         birthDay = askforbirthdate()
         date_time_obj = datetime.datetime.strptime(birthDay, '%d-%m-%Y')
 
-
         firstNameVariations = [firstName, firstName[0], firstName.upper()[0]]
         lastNameVariations = [lastName, lastName[0], lastName.upper()[0]]
         birthDateVariations = [
-        str(date_time_obj.day), 
-        str(date_time_obj.month), 
-        str(date_time_obj.year), 
-        str(date_time_obj.day) + str(date_time_obj.month), 
-        str(date_time_obj.day) + str(date_time_obj.month) + str(date_time_obj.year)]
-
+            str(date_time_obj.day),
+            str(date_time_obj.month),
+            str(date_time_obj.year),
+            str(date_time_obj.day) + str(date_time_obj.month),
+            str(date_time_obj.day) + str(date_time_obj.month) + str(date_time_obj.year)]
 
         for firstnamevar in firstNameVariations:
             for lastnamevar in lastNameVariations:
@@ -62,4 +61,4 @@ try:
         print("Rainbow table created in {}.".format(setUserPath()))
 
 except OSError:
-    print("Something went wrong, try again.") 
+    print("Something went wrong, try again.")
