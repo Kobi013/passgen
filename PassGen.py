@@ -1,3 +1,4 @@
+import os
 import datetime
 
 def validate(date_text):
@@ -9,25 +10,34 @@ def validate(date_text):
 
 
 def askforbirthdate():
-    geboortedatum = ""
-    while not (validate(geboortedatum)):
-        geboortedatum = input("Geef geboortedatum in (dd-MM-yyyy): ")
-    return geboortedatum
+    birthDay = ""
+    while not (validate(birthDay)):
+        birthDay = input("Birthday (dd-MM-yyyy): ")
+    return birthDay
 
 
-filepath = input("Vul pad in (bijv. C:\\temp\\rainbow.txt): ")
+def setUserPath():
+    user_name = os.getlogin()
+    save_path = 'C:\\Users\\{}\\Documents\\Rainbow'.format(user_name)
+    file_name = 'rainbow.txt'
+    completePath = os.path.join(save_path, file_name)
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+    return (completePath)    
+
 
 try:
-    with open(filepath, 'w') as f:
-        voornaam = input("Geef voornaam in: ")
-        achternaam = input("Geef achternaam in: ")
-        geboortedatum = askforbirthdate()
-        date_time_obj = datetime.datetime.strptime(geboortedatum, '%d-%m-%Y')
+    with open(setUserPath(), 'w') as f:
+        firstName = input("Firstname: ")
+        lastName = input("Lastname: ")
+        birthDay = askforbirthdate()
+        date_time_obj = datetime.datetime.strptime(birthDay, '%d-%m-%Y')
 
 
-        firstNameVariations = [voornaam, voornaam[0], voornaam.upper()[0]]
-        lastNameVariations = [achternaam, achternaam[0], achternaam.upper()[0]]
-        birthDateVariations = [str(date_time_obj.day), 
+        firstNameVariations = [firstName, firstName[0], firstName.upper()[0]]
+        lastNameVariations = [lastName, lastName[0], lastName.upper()[0]]
+        birthDateVariations = [
+        str(date_time_obj.day), 
         str(date_time_obj.month), 
         str(date_time_obj.year), 
         str(date_time_obj.day) + str(date_time_obj.month), 
@@ -49,6 +59,7 @@ try:
                 f.write("\n")
             f.write(firstnamevar[::-1])
             f.write("\n")
-        print("Woohoo! Rainbow table created")
+        print("Rainbow table created in {}.".format(setUserPath()))
+
 except OSError:
-    print("Could not open/read file:")
+    print("Something went wrong, try again.") 
